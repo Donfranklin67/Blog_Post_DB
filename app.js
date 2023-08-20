@@ -13,7 +13,7 @@ const About = require("./models/aboutModel");
 // Paths and configs 
 dotenv.config({ path: "./config.env" })
 mongoose.set("strictQuery", false)
-mongoose.connect(process.env.DATABASE, { useNewUrlParser: true, useUnifiedTopology: true }).then((con) => {
+mongoose.connect(String(process.env.DATABASE), { useNewUrlParser: true, useUnifiedTopology: true }).then((con) => {
   console.log("Database connected successfully!")
 })
 const app = express();
