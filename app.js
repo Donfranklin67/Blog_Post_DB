@@ -22,34 +22,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 
-// async function work () {
-//   try {
-//     const item1 = new Home({
-//       title: "Home",
-//       content: homeStartingContent
-//     })
-//     await Home.insertMany([item1])
-    
-    
-//     const item2 = new Contact({
-//       title: "Contact Us",
-//       content: contactContent
-//     })
-//     await Contact.insertMany([item2])
-    
-//     const item3 = new About({
-//       title: "About Us",
-//       content: aboutContent
-//     })
-//     await About.insertMany([item3])
-//     console.log("Done All")
-//   } catch (e) {
-//     console.log(e.message)
-//   }
-  
-// }
-
-
+// This is the home route
 app.get("/", async function (req, res) {
   try {
     const posts = await Post.find({}).exec();
@@ -63,6 +36,8 @@ app.get("/", async function (req, res) {
   }
 });
 
+
+// The about route
 app.get("/about", async function (req, res) {
   try {
     const aboutData = await About.findOne({title: "About Us"}).exec();
@@ -72,6 +47,8 @@ app.get("/about", async function (req, res) {
   }
 });
 
+
+// The contact route
 app.get("/contact", async function (req, res) {
   try {
     const contactData = await Contact.findOne({title: "Contact Us"}).exec();
@@ -81,10 +58,14 @@ app.get("/contact", async function (req, res) {
   }
 });
 
+
+// The compose route. This route is hidden( i.e, It can't be automatically accessed from my blog site). Type http://localhost:3000/compose to access this route.
 app.get("/compose", function (req, res) {
   res.render("compose");
 });
 
+
+// This route creates and sends the data to the databse.
 app.post("/compose", async function (req, res) {
   const post = {
     title: req.body.postTitle,
@@ -103,6 +84,8 @@ app.post("/compose", async function (req, res) {
 
 });
 
+
+// This route gets triggered when you click Readmore on any particular post.
 app.get("/posts/:postName", async function (req, res) {
   try {
     const requestedTitle = _.lowerCase(req.params.postName);
@@ -124,7 +107,9 @@ app.get("/posts/:postName", async function (req, res) {
 
 });
 
-app.listen(3000, function () {
+
+// Listen for when my app gets requested on port 3000 or the process port.
+app.listen(process.env.PORT || 3000, function () {
   console.log("Server started on port 3000");
 });
 
